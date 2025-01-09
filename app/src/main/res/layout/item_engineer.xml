@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
+    android:backgroundTint="@color/black"
+    android:background="@color/black">
 
     <ImageView
         android:id="@+id/profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="@dimen/margin_normal"
         android:src="@drawable/ic_person"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/black"
@@ -24,13 +24,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginEnd="@dimen/margin_normal"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/margin_normal"
         app:layout_constraintBottom_toTopOf="@id/role"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Developer name" />
 
     <TextView
@@ -40,12 +40,62 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_normal"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_normal"
+        android:textColor="@color/white"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toBottomOf="@id/name"
         tools:text="Developer role" />
+
+    <LinearLayout
+        android:id="@+id/quickStatesLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/role"
+        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtYearsWorked"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:text="years"
+            android:drawableTop="@drawable/ic_time"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtCoffeeCount"
+            android:layout_weight="1"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:text="coffees "
+            android:drawableTop="@drawable/ic_coffee"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/txtBugCount"
+            android:layout_width="110dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/ic_bug"
+            android:text="bugs"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

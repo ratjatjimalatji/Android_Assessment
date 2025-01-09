@@ -43,9 +43,9 @@ class QuestionCardView @JvmOverloads constructor(
     init {
         radius = resources.getDimension(R.dimen.corner_radius_normal)
         elevation = resources.getDimension(R.dimen.elevation_normal)
-        setCardBackgroundColor(ContextCompat.getColor(context, R.color.black))
+        setCardBackgroundColor(ContextCompat.getColor(context, R.color.black)) //change back to black when done
     }
-
+//Gets answers from the string then populates the answers
     private fun addAnswer(title: String) {
         val answerView = AnswerCardView(context)
         answerView.title = title
@@ -58,7 +58,9 @@ class QuestionCardView @JvmOverloads constructor(
             binding.answers.children.filter { it.isSelected }.forEach {
                 it.isSelected = false
             }
-        }
+        }//New answer updates when clicked
+        view.isSelected = true
+        (view as AnswerCardView).setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
     }
 
     private fun setSelection() {

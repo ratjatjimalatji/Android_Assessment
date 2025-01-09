@@ -1,5 +1,6 @@
 package com.glucode.about_you.engineers
 
+import EngineersRecyclerViewAdapter
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -37,12 +38,13 @@ class EngineersFragment : Fragment() {
     }
 
     private fun setUpEngineersList(engineers: List<Engineer>) {
-        binding.list.adapter = EngineersRecyclerViewAdapter(engineers) {
-            goToAbout(it)
+        binding.list.adapter = EngineersRecyclerViewAdapter(engineers) { engineer ->
+            goToAbout(engineer)
         }
         val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.list.addItemDecoration(dividerItemDecoration)
     }
+
 
     private fun goToAbout(engineer: Engineer) {
         val bundle = Bundle().apply {

@@ -32,8 +32,9 @@ class AnswerCardView @JvmOverloads constructor(
     init {
         val whiteColour = ContextCompat.getColor(context, R.color.white)
         val blackColour = ContextCompat.getColor(context, R.color.black)
-        selectedCardBackgroundColor = blackColour
-        selectedTextColor = blackColour
+        val purpleColour = ContextCompat.getColor(context, R.color.purple_500) // both the background and text were black so you couldnt see the selected answer
+        selectedCardBackgroundColor = whiteColour // default: black updated to automatically be white
+        selectedTextColor = purpleColour // default: black updated to auto purple
         deselectedTextColor = whiteColour
         radius = resources.getDimension(R.dimen.corner_radius_normal)
         elevation = resources.getDimension(R.dimen.elevation_normal)
@@ -50,4 +51,18 @@ class AnswerCardView @JvmOverloads constructor(
             binding.title.setTextColor(deselectedTextColor)
         }
     }
+
+    //Create method for update selected?
+//    override fun setUpdatedSelected(selected: Boolean) {
+//        super.setUpdatedSelected(selected)
+//        if (selected) { //update != selected
+//
+//            setCardBackgroundColor(selectedCardBackgroundColor)
+//            binding.title.setTextColor(selectedTextColor)
+//        } else {
+//            setCardBackgroundColor(null)
+//            binding.title.setTextColor(deselectedTextColor)
+//        }
+//    }
+
 }
