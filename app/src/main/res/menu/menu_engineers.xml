@@ -11,13 +11,16 @@
             <item
                 android:id="@+id/action_years"
                 android:title="@string/engineers_menu_years"
+                android:icon="@drawable/ic_time"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/action_coffees"
+                android:icon="@drawable/ic_coffee"
                 android:title="@string/engineers_menu_coffees"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/action_bugs"
+                android:icon="@drawable/ic_bug"
                 android:title="@string/engineers_menu_bugs"
                 app:showAsAction="never" />
         </menu>

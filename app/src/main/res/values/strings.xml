@@ -4,10 +4,12 @@
     <!--Engineers-->
     <string name="engineers_screen_title">Engineers at Glucode</string>
     <string name="engineers_menu_title">Filter by</string>
-    <string name="engineers_menu_years">Years</string>
-    <string name="engineers_menu_coffees">Coffees</string>
-    <string name="engineers_menu_bugs">Bugs</string>
+    <string name="engineers_menu_years">Rank users by years</string>
+    <string name="engineers_menu_coffees">Rank users by coffees</string>
+    <string name="engineers_menu_bugs">Rank users by bugs</string>
 
     <!--About-->
     <string name="about_screen_title">About</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

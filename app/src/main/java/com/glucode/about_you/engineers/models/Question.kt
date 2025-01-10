@@ -1,11 +1,14 @@
 package com.glucode.about_you.engineers.models
 
+import android.os.Parcelable
+
+
 abstract class Question(
     val questionText: String,
     val answerOptions: List<String>,
     val questionType: String,//TODO - Is this still necessary?
     val answer: Answer
-) {
+){
     class One(answer: Answer): Question(
         questionText = "When do you have the most energy?",
         answerOptions = listOf(
