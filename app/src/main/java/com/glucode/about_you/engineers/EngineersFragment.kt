@@ -67,6 +67,10 @@ class EngineersFragment : Fragment() {
         return true
     }
 
+    fun refreshList() {
+        adapter.notifyDataSetChanged()
+    }
+
     private fun goToAbout(engineer: Engineer) {
         val bundle = Bundle().apply {
             putString("name", engineer.name)

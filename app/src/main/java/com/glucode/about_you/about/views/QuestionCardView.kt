@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
@@ -14,7 +15,7 @@ class QuestionCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : CardView(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
     private val binding: ViewQuestionCardBinding =
         ViewQuestionCardBinding.inflate(LayoutInflater.from(context), this)
 
@@ -41,11 +42,13 @@ class QuestionCardView @JvmOverloads constructor(
         }
 
     init {
-        radius = resources.getDimension(R.dimen.corner_radius_normal)
-        elevation = resources.getDimension(R.dimen.elevation_normal)
-        setCardBackgroundColor(ContextCompat.getColor(context, R.color.black)) //change back to black when done
+        binding.root.findViewById<CardView>(R.id.cardView)?.apply {
+            radius = resources.getDimension(R.dimen.corner_radius_normal)
+            elevation = resources.getDimension(R.dimen.elevation_normal)
+            setCardBackgroundColor(ContextCompat.getColor(context, R.color.black))
+        }
     }
-//Gets answers from the string then populates the answers
+
     private fun addAnswer(title: String) {
         val answerView = AnswerCardView(context)
         answerView.title = title
@@ -58,12 +61,8 @@ class QuestionCardView @JvmOverloads constructor(
             binding.answers.children.filter { it.isSelected }.forEach {
                 it.isSelected = false
             }
-        }//New answer updates when clicked
+        }
         view.isSelected = true
         (view as AnswerCardView).setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
-    }
-
-    private fun setSelection() {
-
     }
 }

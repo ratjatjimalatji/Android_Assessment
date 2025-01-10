@@ -72,7 +72,7 @@
             android:layout_width="110dp"
             android:layout_weight=".8"
             android:layout_height="match_parent"
-            android:text="Years"
+            android:text="@string/years"
             android:background="@color/white"
             android:gravity="center"/>
 
@@ -81,7 +81,7 @@
             android:layout_weight=".8"
             android:layout_width="110dp"
             android:layout_height="match_parent"
-            android:text="Coffees"
+            android:text="@string/coffees"
             android:background="@color/white"
             android:gravity="center"
             />
@@ -91,7 +91,7 @@
             android:layout_width="110dp"
             android:layout_weight=".8"
             android:layout_height="match_parent"
-            android:text="Bugs"
+            android:text="@string/bugs"
             android:background="@color/white"
             android:gravity="center"
             />
@@ -115,10 +115,9 @@
         <TextView
             android:id="@+id/txtYearsWorked"
             android:layout_width="110dp"
-
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Years"
+            android:text="@string/years"
             android:background="@color/white"
             android:gravity="center"
             android:textStyle="bold"/>
@@ -128,7 +127,7 @@
             android:layout_weight="1"
             android:layout_width="110dp"
             android:layout_height="match_parent"
-            android:text="Coffees"
+            android:text="@string/coffees"
             android:background="@color/white"
             android:gravity="center"
             android:textStyle="bold"
@@ -140,7 +139,7 @@
             android:layout_width="110dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Bugs"
+            android:text="@string/bugs"
             android:background="@color/white"
             android:gravity="center"
             android:textStyle="bold"

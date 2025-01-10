@@ -1,35 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Include the engineer item layout -->
-    <include
-        android:id="@+id/engineerHeader"
-        layout="@layout/item_engineer_details"
+    <!-- Main Container with Rounded Corners -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profileContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_extra_tiny"
+        android:backgroundTint="@color/black"
+        android:background="@drawable/rounded_corners"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Container for questions -->
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/rounded_corners"
+            android:src="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        <!-- Name TextView -->
+        <TextView
+            android:id="@+id/name"
+            style="@style/Material.Body1.Medium.Dark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/role"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Developer name" />
+
+        <!-- Role TextView -->
+        <TextView
+            android:id="@+id/role"
+            style="@style/Material.Body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Developer role" />
+
+        <!-- Quick Stats Headers -->
+        <LinearLayout
+            android:id="@+id/quickStatsHeaderLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toBottomOf="@id/role"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/txtYearsWorkedHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/years" />
+
+            <TextView
+                android:id="@+id/txtCoffeeCountHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/coffees" />
+
+            <TextView
+                android:id="@+id/txtBugCountHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/bugs" />
+        </LinearLayout>
+
+        <!-- Quick Stats Values (BOLD) -->
+        <LinearLayout
+            android:id="@+id/quickStatsValuesLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toBottomOf="@id/quickStatsHeaderLinearLayout"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/txtYearsWorked"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text=""
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCoffeeCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text=""
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtBugCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text=""
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--Allows us to scroll through the questions while the engineer's profile is always visible-->
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileContainer">
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="@dimen/margin_normal"/>
+            android:padding="@dimen/margin_extra_tiny"
+            android:clipToPadding="false"
+            android:clipChildren="false"/>
 
     </ScrollView>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

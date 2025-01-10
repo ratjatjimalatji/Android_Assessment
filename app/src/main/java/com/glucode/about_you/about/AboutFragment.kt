@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -20,13 +21,14 @@ import androidx.fragment.app.Fragment
 import com.glucode.about_you.R
 import com.glucode.about_you.about.views.QuestionCardView
 import com.glucode.about_you.databinding.FragmentAboutBinding
+import com.glucode.about_you.engineers.EngineersFragment
 import com.glucode.about_you.engineers.models.Engineer
 import com.glucode.about_you.mockdata.MockData
 import com.glucode.about_you.utils.LocalStorageManager
 
 class AboutFragment: Fragment() {
     private lateinit var binding: FragmentAboutBinding
-    private lateinit var button: Button
+    private lateinit var profile_image: ImageView
     private lateinit var storageManager: LocalStorageManager
     private var currentEngineerName: String? = null
     private var currentEngineer: Engineer? = null
@@ -40,6 +42,7 @@ class AboutFragment: Fragment() {
             }
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +50,6 @@ class AboutFragment: Fragment() {
     ): View {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,28 +58,25 @@ class AboutFragment: Fragment() {
         storageManager = LocalStorageManager(requireContext())
         currentEngineerName = arguments?.getString("name")
 
-
-        setupEngineerHeader()
+        setupEngineerDetails()
         setUpQuestions()
         initializeViews(view)
         setupClickListeners()
-
-
     }
 
     private fun initializeViews(view: View) {
-        button = view.findViewById(R.id.button)
+        profile_image = binding.profileImage
     }
 
     private fun setupClickListeners() {
-        button.setOnClickListener {
+        profile_image.setOnClickListener {
             showAcceptDialog()
         }
 
         currentEngineerName?.let { name ->
             val profilePic = storageManager.loadProfilePicture(name)
             profilePic?.let { bitmap ->
-                binding.engineerHeader.profileImage.setImageBitmap(bitmap)
+                binding.profileImage.setImageBitmap(bitmap) // Direct reference to ImageView
             }
         }
     }
@@ -96,25 +95,24 @@ class AboutFragment: Fragment() {
         }
     }
 
-    private fun showAcceptDialog() { //Popup dialogue for when user clicks their profile picture
+    private fun showAcceptDialog() {
         Toast.makeText(requireContext(), "Press back to exit", Toast.LENGTH_SHORT).show()
 
         AlertDialog.Builder(requireContext())
             .setTitle("Edit profile picture")
             .setMessage("What would you like to do with your profile picture?")
             .setNegativeButton("Delete it") { _, _ ->
-                // Delete the profile picture
                 deleteProfilePicture()
                 Toast.makeText(
                     requireContext(),
                     "Profile picture has been deleted",
                     Toast.LENGTH_SHORT
                 ).show()
-            }.setPositiveButton("Update it") { _, _ ->
-                // Update the profile picture
+            }
+            .setPositiveButton("Update it") { _, _ ->
                 launchImagePicker()
             }
-            .setCancelable(true) //Allows users to exit process
+            .setCancelable(true)
             .show()
     }
 
@@ -123,42 +121,43 @@ class AboutFragment: Fragment() {
         imagePickerLauncher.launch(intent)
     }
 
-
-
-    private fun setupEngineerHeader() {
+    // alligning the selected engineer's details to the data in MockData
+    private fun setupEngineerDetails() {
         val engineerName = arguments?.getString("name")
         currentEngineerName = engineerName
         currentEngineer = MockData.engineers.first { it.name == engineerName }
 
         currentEngineer?.let { engineer ->
-            with(binding.engineerHeader) {
+            with(binding) {
+
+                // Get the current engineers info to be displayed on about frag
                 name.text = engineer.name
                 role.text = engineer.role
+                txtYearsWorked.text = engineer.quickStats.years.toString()
+                txtCoffeeCount.text = engineer.quickStats.coffees.toString()
+                txtBugCount.text = engineer.quickStats.bugs.toString()
 
-                // First try to load saved profile picture
+                // Load saved profile picture if available
                 val savedProfilePic = storageManager.loadProfilePicture(engineer.name)
                 if (savedProfilePic != null) {
-                    profileImage.setImageBitmap(savedProfilePic)
+                    profileImage.setImageBitmap(savedProfilePic) // Direct reference to ImageView
                 } else {
-                    //Doesnt work for now, nothing gets displayed if null
+                    // If saved image is not found, try loading the default image
                     val resourceId = resources.getIdentifier(
                         engineer.defaultImageName,
                         "drawable",
                         requireContext().packageName
-                                        )
+                    )
                     if (resourceId != 0) {
-                        profileImage.setImageResource(resourceId)
+                        profileImage.setImageResource(resourceId) // Direct reference to ImageView
                     } else {
                         // If default image not found, use fallback
-                        profileImage.setImageResource(R.drawable.ic_person)
+                        profileImage.setImageResource(R.drawable.ic_person) // Fallback
                     }
                 }
 
                 // Remove tint if it's set
-                profileImage.imageTintList = null
-
-                root.isClickable = false
-                root.isFocusable = false
+                profileImage.imageTintList = null // Direct reference to ImageView
             }
         }
     }
@@ -168,11 +167,14 @@ class AboutFragment: Fragment() {
             val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
             currentEngineerName?.let { name ->
                 if (storageManager.saveProfilePicture(name, bitmap)) {
-                    binding.engineerHeader.apply {
-                        profileImage.setImageBitmap(bitmap)
-                        // Remove any tint that might be applied
-                        profileImage.imageTintList = null
-                    }
+                    binding.profileImage.setImageBitmap(bitmap)
+                    binding.profileImage.imageTintList = null
+
+                    // Notify the EngineersFragment to refresh its list
+                    val engineersFragment = parentFragmentManager
+                        .findFragmentByTag("EngineersFragment") as? EngineersFragment
+                    engineersFragment?.refreshList()
+
                     Toast.makeText(requireContext(), "Profile picture updated", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "Failed to save profile picture", Toast.LENGTH_SHORT).show()
@@ -183,6 +185,8 @@ class AboutFragment: Fragment() {
             e.printStackTrace()
         }
     }
+
+
     private fun deleteProfilePicture() {
         currentEngineer?.let { engineer ->
             if (storageManager.deleteProfilePicture(engineer.name)) {
@@ -192,11 +196,11 @@ class AboutFragment: Fragment() {
                     "drawable",
                     requireContext().packageName
                 )
-                binding.engineerHeader.profileImage.apply {
+                binding.profileImage.apply {
                     if (resourceId != 0) {
-                        setImageResource(resourceId)
+                        setImageResource(resourceId) // Direct reference to ImageView
                     } else {
-                        setImageResource(R.drawable.ic_person)
+                        setImageResource(R.drawable.ic_person) // Fallback
                     }
                     // Reset tint if needed for default image
                     imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.black))
@@ -205,72 +209,6 @@ class AboutFragment: Fragment() {
             } else {
                 Toast.makeText(requireContext(), "No profile picture to delete", Toast.LENGTH_SHORT).show()
             }
-        }}}
-
-//package com.glucode.about_you.about
-//
-//import android.content.Context.MODE_PRIVATE
-//import android.graphics.Bitmap
-//import android.os.Bundle
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.core.content.ContentProviderCompat.requireContext
-//import androidx.fragment.app.Fragment
-//import com.glucode.about_you.about.views.QuestionCardView
-//import com.glucode.about_you.databinding.FragmentAboutBinding
-//import com.glucode.about_you.mockdata.MockData
-//import java.io.IOException
-//
-//class AboutFragment: Fragment() {
-//    private lateinit var binding: FragmentAboutBinding
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentAboutBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        setUpQuestions()
-//    }
-//
-//    private fun setUpQuestions() {
-//        val engineerName = arguments?.getString("name")
-//        val engineer = MockData.engineers.first { it.name == engineerName }
-//
-//        engineer.questions.forEach { question ->
-//            val questionView = QuestionCardView(requireContext())
-//            questionView.title = question.questionText
-//            questionView.answers = question.answerOptions
-//            questionView.selection = question.answer.index
-//
-//            binding.container.addView(questionView)
-//        }
-//    }
-//}
-//
-//////
-//    private suspend fun loadPhotoFromInternalStorage():List<InternalStoragePhoto>{
-//
-//
-//    }
-//private fun savePhotoToInternalStorage(filename:String, bmp: Bitmap): Boolean{
-//    return try{
-//        //Output stream
-//        openFileOutput("$filename.jpg", MODE_PRIVATE).use{ stream ->
-//            if(!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)){
-//                throw IOException("Couldn't save bitmap")
-//            }
-//        }
-//        true
-//    }catch (e: IOException){
-//        e.printStackTrace()
-//        false
-//    }
-//}
+        }
+    }
+}
