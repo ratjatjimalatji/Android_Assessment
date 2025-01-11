@@ -47,7 +47,7 @@ class AnswerCardView @JvmOverloads constructor(
         setCardBackgroundColor(null)
     }
 
-//Method to change answers (text & background) when their selected.
+//Method to change answers (text & background) when their selected!
     override fun setSelected(selected: Boolean) {
         super.setSelected(selected)
         if (selected) {
