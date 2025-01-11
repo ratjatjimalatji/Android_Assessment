@@ -27,12 +27,14 @@ import com.glucode.about_you.mockdata.MockData
 import com.glucode.about_you.utils.LocalStorageManager
 
 class AboutFragment: Fragment() {
+    //Declarations
     private lateinit var binding: FragmentAboutBinding
     private lateinit var profile_image: ImageView
     private lateinit var storageManager: LocalStorageManager
     private var currentEngineerName: String? = null
     private var currentEngineer: Engineer? = null
 
+    //Allows users to upload their pictures from gallery
     private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -95,6 +97,7 @@ class AboutFragment: Fragment() {
         }
     }
 
+    //After user clicks the Engineers profile picture
     private fun showAcceptDialog() {
         Toast.makeText(requireContext(), "Press back to exit", Toast.LENGTH_SHORT).show()
 
@@ -121,7 +124,7 @@ class AboutFragment: Fragment() {
         imagePickerLauncher.launch(intent)
     }
 
-    // alligning the selected engineer's details to the data in MockData
+    // aligning the selected engineer's details to the data in MockData
     private fun setupEngineerDetails() {
         val engineerName = arguments?.getString("name")
         currentEngineerName = engineerName
@@ -137,12 +140,13 @@ class AboutFragment: Fragment() {
                 txtCoffeeCount.text = engineer.quickStats.coffees.toString()
                 txtBugCount.text = engineer.quickStats.bugs.toString()
 
-                // Load saved profile picture if available
+                // Load saved profile picture if there is one
                 val savedProfilePic = storageManager.loadProfilePicture(engineer.name)
                 if (savedProfilePic != null) {
                     profileImage.setImageBitmap(savedProfilePic) // Direct reference to ImageView
                 } else {
-                    // If saved image is not found, try loading the default image
+
+                    // If saved image is not found, load the default image
                     val resourceId = resources.getIdentifier(
                         engineer.defaultImageName,
                         "drawable",
@@ -155,9 +159,6 @@ class AboutFragment: Fragment() {
                         profileImage.setImageResource(R.drawable.ic_person) // Fallback
                     }
                 }
-
-                // Remove tint if it's set
-                profileImage.imageTintList = null // Direct reference to ImageView
             }
         }
     }
@@ -174,7 +175,7 @@ class AboutFragment: Fragment() {
                     val engineersFragment = parentFragmentManager
                         .findFragmentByTag("EngineersFragment") as? EngineersFragment
                     engineersFragment?.refreshList()
-
+//Messages options if image is saved or not
                     Toast.makeText(requireContext(), "Profile picture updated", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "Failed to save profile picture", Toast.LENGTH_SHORT).show()
@@ -202,9 +203,8 @@ class AboutFragment: Fragment() {
                     } else {
                         setImageResource(R.drawable.ic_person) // Fallback
                     }
-                    // Reset tint if needed for default image
-                    imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.black))
                 }
+                //Message options if profile picture is deleted or not
                 Toast.makeText(requireContext(), "Profile picture deleted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "No profile picture to delete", Toast.LENGTH_SHORT).show()

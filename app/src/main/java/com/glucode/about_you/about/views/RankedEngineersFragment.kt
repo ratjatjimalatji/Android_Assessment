@@ -12,6 +12,7 @@ import com.glucode.about_you.mockdata.MockData
 import EngineersRecyclerViewAdapter
 
 class RankedEngineersFragment : Fragment() {
+    // Declarations
     private var _binding: FragmentRankedEngineersBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: EngineersRecyclerViewAdapter
@@ -25,7 +26,7 @@ class RankedEngineersFragment : Fragment() {
         _binding = FragmentRankedEngineersBinding.inflate(inflater, container, false)
         setupRecyclerView()
 
-        // Get the sort type from arguments and sort immediately
+        // Get the sort type from arguments and sort
         arguments?.getString("sortType")?.let { sortType ->
             sortEngineers(sortType)
         }
@@ -49,10 +50,11 @@ class RankedEngineersFragment : Fragment() {
     }
 
     private fun sortEngineers(sortType: String) {
+        //Order the list of engineers ASCENDING based on the number of years, coffees or bugs.
         val sortedEngineers = when (sortType) {
             "coffees" -> engineers.sortedByDescending { it.quickStats.coffees }
-            "bugs" -> engineers.sortedByDescending { it.quickStats.bugs }
-            "years" -> engineers.sortedByDescending { it.quickStats.years }
+            "bugs" -> engineers.sortedBy { it.quickStats.bugs }
+            "years" -> engineers.sortedBy { it.quickStats.years }
             else -> engineers
         }
 
@@ -60,13 +62,6 @@ class RankedEngineersFragment : Fragment() {
         engineers.addAll(sortedEngineers)
         adapter.notifyDataSetChanged()
 
-        // Update the title based on sort type
-        activity?.title = when (sortType) {
-            "coffees" -> "Ranked by Coffees"
-            "bugs" -> "Ranked by Bugs Fixed"
-            "years" -> "Ranked by Years"
-            else -> "Engineers Ranking"
-        }
     }
 
     override fun onDestroyView() {

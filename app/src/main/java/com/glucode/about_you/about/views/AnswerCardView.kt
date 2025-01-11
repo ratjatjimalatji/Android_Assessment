@@ -31,16 +31,23 @@ class AnswerCardView @JvmOverloads constructor(
 
     init {
         val whiteColour = ContextCompat.getColor(context, R.color.white)
-        val blackColour = ContextCompat.getColor(context, R.color.black)
-        val purpleColour = ContextCompat.getColor(context, R.color.purple_500) // both the background and text were black so you couldnt see the selected answer
-        selectedCardBackgroundColor = whiteColour // default: black updated to automatically be white
-        selectedTextColor = purpleColour // default: black updated to auto purple
+
+        // both the background and text were black so you couldnt see the selected answer
+        val purpleColour = ContextCompat.getColor(context, R.color.purple_500)
+
+        // default was black, I updated to automatically be white - The preselected answer is not visible.
+        selectedCardBackgroundColor = whiteColour
+
+        // default was black, I updated to automatically be purple - When changing the answer to a question no selection is visible.
+        selectedTextColor = purpleColour
+
         deselectedTextColor = whiteColour
         radius = resources.getDimension(R.dimen.corner_radius_normal)
         elevation = resources.getDimension(R.dimen.elevation_normal)
         setCardBackgroundColor(null)
     }
 
+//Method to change answers (text & background) when their selected
     override fun setSelected(selected: Boolean) {
         super.setSelected(selected)
         if (selected) {
@@ -51,18 +58,5 @@ class AnswerCardView @JvmOverloads constructor(
             binding.title.setTextColor(deselectedTextColor)
         }
     }
-
-    //Create method for update selected?
-//    override fun setUpdatedSelected(selected: Boolean) {
-//        super.setUpdatedSelected(selected)
-//        if (selected) { //update != selected
-//
-//            setCardBackgroundColor(selectedCardBackgroundColor)
-//            binding.title.setTextColor(selectedTextColor)
-//        } else {
-//            setCardBackgroundColor(null)
-//            binding.title.setTextColor(deselectedTextColor)
-//        }
-//    }
 
 }
